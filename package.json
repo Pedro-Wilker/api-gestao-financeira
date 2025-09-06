@@ -1,0 +1,12 @@
+{
+  "name": "apifinas",
+  "version": "1.0.0",
+  "description": "Api do app gestao financeira",
+  "license": "ISC",
+  "author": "Pedro-Wilker",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
