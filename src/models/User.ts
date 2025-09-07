@@ -2,7 +2,7 @@ import { Table, Column, Model, DataType, AllowNull, Unique, Default, CreatedAt, 
 import { Expense } from './Expense';
 import { Income } from './Income';
 
-@Table({ tableName: 'users', paranoid: true }) // paranoid enables soft deletes
+@Table({ tableName: 'users', paranoid: true })
 export class User extends Model<User> {
     @Default(DataType.UUIDV4)
     @Column({ type: DataType.UUID, primaryKey: true })
@@ -57,6 +57,15 @@ export interface CreateUserInput {
     email: string;
     phone?: string;
     password: string;
+    profession?: string;
+    profile_photo?: string;
+}
+
+export interface UpdateUserInput {
+    name?: string;
+    email?: string;
+    phone?: string;
+    password?: string;
     profession?: string;
     profile_photo?: string;
 }
