@@ -1,24 +1,24 @@
 import { Request, Response } from 'express';
 import Joi from 'joi';
-import { createIncomeService } from '../../services/incomes/createIncomeService';
-import { CreateIncomeAttributes } from '../../models/Income';
+import { createExpenseService } from '../../services/expenses/createExpenseService';
+import { CreateExpenseAttributes } from '../../models/Expense';
 
 const schema = Joi.object({
     description: Joi.string().required(),
     amount: Joi.number().positive().required(),
     date: Joi.string().isoDate().required(),
-    source: Joi.string().valid('salary', 'investment', 'freelance', 'gift', 'other').optional(),
+    category: Joi.string().valid('food', 'transport', 'housing', 'entertainment', 'health', 'other').optional(),
     is_recurring: Joi.boolean().optional(),
     currency: Joi.string().length(3).optional(),
 });
 
-export const createIncomeController = async (req: Request & { user?: { id: string } }, res: Response) => {
+export const createExpenseController = async (req: Request & { user?: { id: string } }, res: Response) => {
     try {
         const { error, value } = schema.validate(req.body);
         if (error) throw new Error(error.details[0].message);
         const userId = req.user!.id;
-        const income = await createIncomeService(userId, value as CreateIncomeAttributes);
-        res.status(201).json(income);
+        const expense = await createExpenseService(userId, value as CreateExpenseAttributes);
+        res.status(201).json(expense);
     } catch (err: any) {
         res.status(400).json({ error: err.message });
     }

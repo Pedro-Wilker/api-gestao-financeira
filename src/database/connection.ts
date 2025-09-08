@@ -13,7 +13,7 @@ const sequelize = new Sequelize({
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
-    models: [User, Expense, Income], // Register models
+    models: [User, Expense, Income],
 });
 
 export default sequelize;

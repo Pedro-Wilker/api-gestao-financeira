@@ -1,9 +1,29 @@
 import { Table, Column, Model, DataType, AllowNull, Unique, Default, CreatedAt, UpdatedAt, DeletedAt, HasMany } from 'sequelize-typescript';
+import { Optional } from 'sequelize';
 import { Expense } from './Expense';
 import { Income } from './Income';
 
-@Table({ tableName: 'users', paranoid: true }) // paranoid enables soft deletes
-export class User extends Model<User> {
+export interface UserAttributes {
+    id: string;
+    name: string;
+    email: string;
+    phone?: string;
+    password: string;
+    profession?: string;
+    profile_photo?: string;
+    reset_code?: number | null; // Explicitamente permitir null
+    reset_expires?: Date | null; // Explicitamente permitir null
+    created_at: Date;
+    updated_at: Date;
+    deleted_at?: Date | null; // Explicitamente permitir null
+    expenses?: Expense[];
+    incomes?: Income[];
+}
+
+export type CreateUserAttributes = Optional<UserAttributes, 'id' | 'created_at' | 'updated_at' | 'deleted_at' | 'reset_code' | 'reset_expires' | 'expenses' | 'incomes'>;
+
+@Table({ tableName: 'users', paranoid: true })
+export class User extends Model<UserAttributes, CreateUserAttributes> {
     @Default(DataType.UUIDV4)
     @Column({ type: DataType.UUID, primaryKey: true })
     id!: string;
@@ -30,11 +50,13 @@ export class User extends Model<User> {
     @Column(DataType.STRING(255))
     profile_photo?: string;
 
+    @AllowNull(true)
     @Column(DataType.INTEGER)
-    reset_code?: number;
+    reset_code?: number | null;
 
+    @AllowNull(true)
     @Column(DataType.DATE)
-    reset_expires?: Date;
+    reset_expires?: Date | null;
 
     @CreatedAt
     created_at!: Date;
@@ -43,7 +65,7 @@ export class User extends Model<User> {
     updated_at!: Date;
 
     @DeletedAt
-    deleted_at?: Date;
+    deleted_at?: Date | null;
 
     @HasMany(() => Expense, { onDelete: 'CASCADE' })
     expenses!: Expense[];
@@ -52,11 +74,5 @@ export class User extends Model<User> {
     incomes!: Income[];
 }
 
-export interface CreateUserInput {
-    name: string;
-    email: string;
-    phone?: string;
-    password: string;
-    profession?: string;
-    profile_photo?: string;
-}
+export type CreateUserInput = CreateUserAttributes;
+export type UpdateUserInput = Partial<CreateUserAttributes>;

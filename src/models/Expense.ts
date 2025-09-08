@@ -1,8 +1,26 @@
 import { Table, Column, Model, DataType, AllowNull, Default, CreatedAt, UpdatedAt, DeletedAt, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Optional } from 'sequelize';
 import { User } from './User';
 
+export interface ExpenseAttributes {
+    id: string;
+    user_id: string;
+    description: string;
+    amount: number;
+    date: string;
+    category: 'food' | 'transport' | 'housing' | 'entertainment' | 'health' | 'other';
+    is_recurring: boolean;
+    currency: string;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at?: Date | null; 
+    user?: User;
+}
+
+export type CreateExpenseAttributes = Optional<ExpenseAttributes, 'id' | 'created_at' | 'updated_at' | 'deleted_at' | 'user'>;
+
 @Table({ tableName: 'expenses', paranoid: true })
-export class Expense extends Model<Expense> {
+export class Expense extends Model<ExpenseAttributes, CreateExpenseAttributes> {
     @Default(DataType.UUIDV4)
     @Column({ type: DataType.UUID, primaryKey: true })
     id!: string;
@@ -41,18 +59,12 @@ export class Expense extends Model<Expense> {
     @UpdatedAt
     updated_at!: Date;
 
+    @AllowNull(true)
     @DeletedAt
-    deleted_at?: Date;
+    deleted_at?: Date | null;
 
     @BelongsTo(() => User)
     user!: User;
 }
 
-export interface CreateExpenseInput {
-    description: string;
-    amount: number;
-    date: string;
-    category?: 'food' | 'transport' | 'housing' | 'entertainment' | 'health' | 'other';
-    is_recurring?: boolean;
-    currency?: string;
-}
+export type CreateExpenseInput = CreateExpenseAttributes;
