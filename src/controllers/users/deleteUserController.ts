@@ -6,6 +6,6 @@ export const deleteUserController = async (req: Request, res: Response) => {
         await deleteUserService(req.params.id);
         res.status(204).send();
     } catch (err: any) {
-        res.status(500).json({ error: err.message });
+        res.status(400).json({ error: err.message });
     }
 };

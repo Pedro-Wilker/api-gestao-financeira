@@ -1,4 +1,6 @@
 import { Income } from '../../models/Income';
+import { Op, WhereOptions } from 'sequelize';
+import { IncomeAttributes } from '../../models/Income';
 
 interface PaginationResult {
     data: Income[];
@@ -10,8 +12,12 @@ interface PaginationResult {
 
 export const listIncomesService = async (userId: string, page: number = 1, limit: number = 10): Promise<PaginationResult> => {
     const offset = (page - 1) * limit;
+    const where: WhereOptions<IncomeAttributes> = {
+        user_id: userId,
+        deleted_at: null,
+    };
     const { rows, count } = await Income.findAndCountAll({
-        where: { user_id: userId, deleted_at: null },
+        where,
         attributes: ['id', 'description', 'amount', 'date', 'source', 'is_recurring', 'currency'],
         limit,
         offset,
