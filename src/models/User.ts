@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, AllowNull, Unique, Default, CreatedAt, UpdatedAt, DeletedAt, HasMany } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, Unique, Default, CreatedAt, UpdatedAt, DeletedAt, HasMany } from 'sequelize-typescript';
 import { Optional } from 'sequelize';
 import { Expense } from './Expense';
 import { Income } from './Income';
@@ -11,11 +11,11 @@ export interface UserAttributes {
     password: string;
     profession?: string;
     profile_photo?: string;
-    reset_code?: number | null; // Explicitamente permitir null
-    reset_expires?: Date | null; // Explicitamente permitir null
+    reset_code?: number | null;
+    reset_expires?: Date | null;
     created_at: Date;
     updated_at: Date;
-    deleted_at?: Date | null; // Explicitamente permitir null
+    deleted_at?: Date | null;
     expenses?: Expense[];
     incomes?: Income[];
 }
@@ -28,34 +28,29 @@ export class User extends Model<UserAttributes, CreateUserAttributes> {
     @Column({ type: DataType.UUID, primaryKey: true })
     id!: string;
 
-    @AllowNull(false)
-    @Column(DataType.STRING(255))
+    @Column({ type: DataType.STRING(255), allowNull: false })
     name!: string;
 
-    @AllowNull(false)
     @Unique
-    @Column(DataType.STRING(255))
+    @Column({ type: DataType.STRING(255), allowNull: false })
     email!: string;
 
-    @Column(DataType.STRING(20))
+    @Column({ type: DataType.STRING(20), allowNull: true })
     phone?: string;
 
-    @AllowNull(false)
-    @Column(DataType.STRING(255))
+    @Column({ type: DataType.STRING(255), allowNull: false })
     password!: string;
 
-    @Column(DataType.STRING(100))
+    @Column({ type: DataType.STRING(100), allowNull: true })
     profession?: string;
 
-    @Column(DataType.STRING(255))
+    @Column({ type: DataType.STRING(255), allowNull: true })
     profile_photo?: string;
 
-    @AllowNull(true)
-    @Column(DataType.INTEGER)
+    @Column({ type: DataType.INTEGER, allowNull: true })
     reset_code?: number | null;
 
-    @AllowNull(true)
-    @Column(DataType.DATE)
+    @Column({ type: DataType.DATE, allowNull: true })
     reset_expires?: Date | null;
 
     @CreatedAt
@@ -64,6 +59,7 @@ export class User extends Model<UserAttributes, CreateUserAttributes> {
     @UpdatedAt
     updated_at!: Date;
 
+    @Column({ type: DataType.DATE, allowNull: true })
     @DeletedAt
     deleted_at?: Date | null;
 

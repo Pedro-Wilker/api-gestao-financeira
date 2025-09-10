@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, AllowNull, Default, CreatedAt, UpdatedAt, DeletedAt, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, Default, CreatedAt, UpdatedAt, DeletedAt, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Optional } from 'sequelize';
 import { User } from './User';
 
@@ -13,7 +13,7 @@ export interface IncomeAttributes {
     currency: string;
     created_at: Date;
     updated_at: Date;
-    deleted_at?: Date | null; 
+    deleted_at?: Date | null;
     user?: User;
 }
 
@@ -26,31 +26,28 @@ export class Income extends Model<IncomeAttributes, CreateIncomeAttributes> {
     id!: string;
 
     @ForeignKey(() => User)
-    @Column({ type: DataType.UUID })
+    @Column({ type: DataType.UUID, allowNull: false })
     user_id!: string;
 
-    @AllowNull(false)
-    @Column(DataType.STRING(255))
+    @Column({ type: DataType.STRING(255), allowNull: false })
     description!: string;
 
-    @AllowNull(false)
-    @Column(DataType.DECIMAL(10, 2))
+    @Column({ type: DataType.DECIMAL(10, 2), allowNull: false })
     amount!: number;
 
-    @AllowNull(false)
-    @Column(DataType.DATEONLY)
+    @Column({ type: DataType.DATEONLY, allowNull: false })
     date!: string;
 
     @Default('other')
-    @Column(DataType.ENUM('salary', 'investment', 'freelance', 'gift', 'other'))
+    @Column({ type: DataType.ENUM('salary', 'investment', 'freelance', 'gift', 'other'), allowNull: false })
     source!: 'salary' | 'investment' | 'freelance' | 'gift' | 'other';
 
     @Default(false)
-    @Column(DataType.BOOLEAN)
+    @Column({ type: DataType.BOOLEAN, allowNull: false })
     is_recurring!: boolean;
 
     @Default('BRL')
-    @Column(DataType.STRING(3))
+    @Column({ type: DataType.STRING(3), allowNull: false })
     currency!: string;
 
     @CreatedAt
@@ -59,9 +56,9 @@ export class Income extends Model<IncomeAttributes, CreateIncomeAttributes> {
     @UpdatedAt
     updated_at!: Date;
 
-    @AllowNull(true)
+    @Column({ type: DataType.DATE, allowNull: true })
     @DeletedAt
-    deleted_at?: Date | null; 
+    deleted_at?: Date | null;
 
     @BelongsTo(() => User)
     user!: User;
