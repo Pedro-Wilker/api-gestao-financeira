@@ -13,17 +13,29 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-sequelize.sync({ logging: console.log }).then(() => {
-    console.log('Database synced');
-}).catch((err) => {
-    console.error('Sync error:', err);
-});
+async function startServer() {
+    try {
+        // Testar conexão com o banco
+        await sequelize.authenticate();
+        console.log('Connection to database successful');
 
-app.use('/api', userRoutes);
-app.use('/api', expenseRoutes);
-app.use('/api', incomeRoutes);
+        // Sincronizar modelos
+        await sequelize.sync({ logging: console.log });
+        console.log('Database synced');
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+        // Configurar rotas
+        app.use('/api', userRoutes);
+        app.use('/api', expenseRoutes);
+        app.use('/api', incomeRoutes);
+
+        // Iniciar servidor
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error('Error starting server:', err);
+    }
+}
+
+startServer();
