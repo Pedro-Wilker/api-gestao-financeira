@@ -8,6 +8,8 @@ import incomeRoutes from './routes/incomeRoutes';
 
 dotenv.config();
 
+console.log('Starting server...');
+
 const app: Express = express();
 app.use(cors());
 app.use(express.json());
@@ -15,20 +17,14 @@ app.use(express.urlencoded({ extended: true }));
 
 async function startServer() {
     try {
-        // Testar conexão com o banco
+        console.log('Attempting to authenticate with database...');
         await sequelize.authenticate();
         console.log('Connection to database successful');
 
-        // Sincronizar modelos
-        await sequelize.sync({ logging: console.log });
-        console.log('Database synced');
-
-        // Configurar rotas
         app.use('/api', userRoutes);
         app.use('/api', expenseRoutes);
         app.use('/api', incomeRoutes);
 
-        // Iniciar servidor
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);

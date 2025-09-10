@@ -1,19 +1,26 @@
-import { Sequelize } from 'sequelize-typescript';
+import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
-import { User } from '../models/User';
-import { Expense } from '../models/Expense';
-import { Income } from '../models/Income';
 
 dotenv.config();
 
+console.log('Initializing Sequelize...');
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_PORT:', process.env.DB_PORT);
+console.log('DB_USER:', process.env.DB_USER);
+console.log('DB_NAME:', process.env.DB_NAME);
+
 const sequelize = new Sequelize({
-    database: process.env.DB_NAME,
     dialect: 'postgres',
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
-    models: [User, Expense, Income],
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    logging: (msg) => console.log(msg),
 });
+
+sequelize.authenticate()
+    .then(() => console.log('Database connection established'))
+    .catch((err) => console.error('Database connection error:', err));
 
 export default sequelize;
