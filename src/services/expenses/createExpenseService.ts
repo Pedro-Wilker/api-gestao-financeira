@@ -7,6 +7,7 @@ export const createExpenseService = async (userId: string, data: CreateExpenseIn
         amount: data.amount,
         date: data.date,
         category: data.category || 'other',
+        type: data.type || 'outros',
         is_recurring: data.is_recurring || false,
         currency: data.currency || 'BRL',
     });
