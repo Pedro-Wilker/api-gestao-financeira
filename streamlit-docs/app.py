@@ -3,24 +3,19 @@ import requests
 import json
 from typing import Dict, Any, List
 
-# Configuração do Streamlit
 st.set_page_config(page_title="Documentação da API de Gestão Financeira", layout="wide")
 
-# Barra lateral para navegação
 st.sidebar.title("Navegação")
 page = st.sidebar.radio(
     "Seções",
     ["Introdução", "Como Usar", "Rotas", "Exemplos Práticos"]
 )
 
-# URL base da API
 BASE_URL: str = "http://localhost:3000/api"
 
-# Função para exibir payloads JSON
 def display_json(payload: Dict[str, Any] | List[Dict[str, Any]]) -> None:
     st.json(payload)
 
-# Introdução
 if page == "Introdução":
     st.title("Documentação da API de Gestão Financeira")
     st.markdown("""
@@ -35,7 +30,6 @@ if page == "Introdução":
     Esta documentação, construída com Streamlit, explica como configurar, usar e testar a API. Use o menu na barra lateral para navegar pelas seções.
     """)
 
-# Como Usar
 elif page == "Como Usar":
     st.title("Como Usar a API")
     st.markdown("""
@@ -96,7 +90,7 @@ elif page == "Como Usar":
     Use ferramentas como **Insomnia** ou **Postman** para testar as rotas. Consulte a seção "Rotas" para detalhes de cada endpoint.
     """)
 
-# Rotas
+
 elif page == "Rotas":
     st.title("Rotas da API")
     st.markdown("""
@@ -223,7 +217,7 @@ elif page == "Rotas":
         "amount": 150.50,
         "date": "2025-09-10",
         "category": "food",
-        "is_recurring": False,  # Corrigido de 'false' para 'False'
+        "is_recurring": False, 
         "currency": "BRL"
     })
     st.markdown("""
@@ -236,7 +230,7 @@ elif page == "Rotas":
         "amount": 150.50,
         "date": "2025-09-10",
         "category": "food",
-        "is_recurring": False,  # Corrigido de 'false' para 'False'
+        "is_recurring": False,  
         "currency": "BRL",
         "created_at": "2025-09-10T21:00:00.000Z",
         "updated_at": "2025-09-10T21:00:00.000Z"
@@ -255,7 +249,7 @@ elif page == "Rotas":
             "amount": 150.50,
             "date": "2025-09-10",
             "category": "food",
-            "is_recurring": False,  # Corrigido de 'false' para 'False'
+            "is_recurring": False,  
             "currency": "BRL",
             "created_at": "2025-09-10T21:00:00.000Z",
             "updated_at": "2025-09-10T21:00:00.000Z"
@@ -274,7 +268,7 @@ elif page == "Rotas":
         "amount": 150.50,
         "date": "2025-09-10",
         "category": "food",
-        "is_recurring": False,  # Corrigido de 'false' para 'False'
+        "is_recurring": False,  
         "currency": "BRL",
         "created_at": "2025-09-10T21:00:00.000Z",
         "updated_at": "2025-09-10T21:00:00.000Z"
@@ -290,7 +284,7 @@ elif page == "Rotas":
         "amount": 200.00,
         "date": "2025-09-10",
         "category": "food",
-        "is_recurring": True,  # Corrigido de 'true' para 'True'
+        "is_recurring": True,  
         "currency": "BRL"
     })
     st.markdown("""
@@ -303,7 +297,7 @@ elif page == "Rotas":
         "amount": 200.00,
         "date": "2025-09-10",
         "category": "food",
-        "is_recurring": True,  # Corrigido de 'true' para 'True'
+        "is_recurring": True,  
         "currency": "BRL",
         "created_at": "2025-09-10T21:00:00.000Z",
         "updated_at": "2025-09-10T21:05:00.000Z"
@@ -325,7 +319,7 @@ elif page == "Rotas":
         "amount": 5000.00,
         "date": "2025-09-10",
         "source": "salary",
-        "is_recurring": True,  # Corrigido de 'true' para 'True'
+        "is_recurring": True,  
         "currency": "BRL"
     })
     st.markdown("""
@@ -338,7 +332,7 @@ elif page == "Rotas":
         "amount": 5000.00,
         "date": "2025-09-10",
         "source": "salary",
-        "is_recurring": True,  # Corrigido de 'true' para 'True'
+        "is_recurring": True,  
         "currency": "BRL",
         "created_at": "2025-09-10T21:00:00.000Z",
         "updated_at": "2025-09-10T21:00:00.000Z"
@@ -357,7 +351,7 @@ elif page == "Rotas":
             "amount": 5000.00,
             "date": "2025-09-10",
             "source": "salary",
-            "is_recurring": True,  # Corrigido de 'true' para 'True'
+            "is_recurring": True,  
             "currency": "BRL",
             "created_at": "2025-09-10T21:00:00.000Z",
             "updated_at": "2025-09-10T21:00:00.000Z"
@@ -376,7 +370,7 @@ elif page == "Rotas":
         "amount": 5000.00,
         "date": "2025-09-10",
         "source": "salary",
-        "is_recurring": True,  # Corrigido de 'true' para 'True'
+        "is_recurring": True,  
         "currency": "BRL",
         "created_at": "2025-09-10T21:00:00.000Z",
         "updated_at": "2025-09-10T21:00:00.000Z"
@@ -392,7 +386,7 @@ elif page == "Rotas":
         "amount": 5500.00,
         "date": "2025-09-10",
         "source": "salary",
-        "is_recurring": True,  # Corrigido de 'true' para 'True'
+        "is_recurring": True,  
         "currency": "BRL"
     })
     st.markdown("""
@@ -405,7 +399,7 @@ elif page == "Rotas":
         "amount": 5500.00,
         "date": "2025-09-10",
         "source": "salary",
-        "is_recurring": True,  # Corrigido de 'true' para 'True'
+        "is_recurring": True,  
         "currency": "BRL",
         "created_at": "2025-09-10T21:00:00.000Z",
         "updated_at": "2025-09-10T21:05:00.000Z"
@@ -417,7 +411,6 @@ elif page == "Rotas":
     - **Resposta (204)**: Sem conteúdo.
     """)
 
-# Exemplos Práticos
 elif page == "Exemplos Práticos":
     st.title("Exemplos Práticos")
     st.markdown("""
