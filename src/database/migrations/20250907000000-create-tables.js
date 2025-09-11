@@ -35,6 +35,11 @@ module.exports = {
                 defaultValue: 'other',
                 allowNull: false,
             },
+            type: {
+                type: DataTypes.ENUM('academia', 'alimentacao_basica', 'passagens', 'besteiras', 'lazer', 'hobbie', 'educacao', 'saude', 'vestuario', 'moradia', 'transporte', 'investimentos', 'outros'),
+                defaultValue: 'outros',
+                allowNull: false,
+            },
             is_recurring: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
             currency: { type: DataTypes.STRING(3), defaultValue: 'BRL', allowNull: false },
             created_at: { type: DataTypes.DATE, allowNull: false },
@@ -65,6 +70,7 @@ module.exports = {
             deleted_at: { type: DataTypes.DATE, allowNull: true },
         });
     },
+
     down: async (queryInterface) => {
         await queryInterface.dropTable('incomes');
         await queryInterface.dropTable('expenses');

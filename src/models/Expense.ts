@@ -1,74 +1,74 @@
-import { Table, Column, Model, DataType, AllowNull, ForeignKey, Default, BelongsTo } from 'sequelize-typescript';
-import { User } from './User';
+  import { Table, Column, Model, DataType, AllowNull, Default, CreatedAt, UpdatedAt, DeletedAt, ForeignKey, BelongsTo } from 'sequelize-typescript';
+  import { Optional } from 'sequelize';
+  import { User } from './User';
 
-@Table({
-    tableName: 'expenses',
-    timestamps: true,
-    paranoid: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at',
-})
-export class Expense extends Model {
-    @Column({
-        type: DataType.UUID,
-        defaultValue: DataType.UUIDV4,
-        primaryKey: true,
-    })
-    id!: string;
+  export interface ExpenseAttributes {
+      id: string;
+      user_id: string;
+      description: string;
+      amount: number;
+      date: string;
+      category: 'food' | 'transport' | 'housing' | 'entertainment' | 'health' | 'other';
+      type: 'academia' | 'alimentacao_basica' | 'passagens' | 'besteiras' | 'lazer' | 'hobbie' | 'educacao' | 'saude' | 'vestuario' | 'moradia' | 'transporte' | 'investimentos' | 'outros'; // Novo campo
+      is_recurring: boolean;
+      currency: string;
+      created_at: Date;
+      updated_at: Date;
+      deleted_at?: Date | null;
+      user?: User;
+  }
 
-    @ForeignKey(() => User)
-    @Column({
-        type: DataType.UUID,
-        allowNull: false,
-    })
-    user_id!: string;
+  export type CreateExpenseAttributes = Optional<ExpenseAttributes, 'id' | 'created_at' | 'updated_at' | 'deleted_at' | 'user'>;
 
-    @BelongsTo(() => User)
-    user!: User;
+  @Table({ tableName: 'expenses', paranoid: true })
+  export class Expense extends Model<ExpenseAttributes, CreateExpenseAttributes> {
+      @Default(DataType.UUIDV4)
+      @Column({ type: DataType.UUID, primaryKey: true })
+      id!: string;
 
-    @Column({
-        type: DataType.STRING(255),
-        allowNull: false,
-    })
-    description!: string;
+      @ForeignKey(() => User)
+      @Column({ type: DataType.UUID })
+      user_id!: string;
 
-    @Column({
-        type: DataType.DECIMAL(10, 2),
-        allowNull: false,
-    })
-    amount!: number;
+      @AllowNull(false)
+      @Column(DataType.STRING(255))
+      description!: string;
 
-    @Column({
-        type: DataType.DATEONLY,
-        allowNull: false,
-    })
-    date!: string;
+      @AllowNull(false)
+      @Column(DataType.DECIMAL(10, 2))
+      amount!: number;
 
-    @Column({
-        type: DataType.ENUM('food', 'transport', 'housing', 'entertainment', 'health', 'other'),
-        defaultValue: 'other',
-        allowNull: false,
-    })
-    category!: string;
+      @AllowNull(false)
+      @Column(DataType.DATEONLY)
+      date!: string;
 
-    @Column({
-        type: DataType.BOOLEAN,
-        defaultValue: false,
-        allowNull: false,
-    })
-    is_recurring!: boolean;
+      @Default('other')
+      @Column(DataType.ENUM('food', 'transport', 'housing', 'entertainment', 'health', 'other'))
+      category!: 'food' | 'transport' | 'housing' | 'entertainment' | 'health' | 'other';
 
-    @Column({
-        type: DataType.STRING(3),
-        defaultValue: 'BRL',
-        allowNull: false,
-    })
-    currency!: string;
+      @Default('outros')
+      @Column(DataType.ENUM('academia', 'alimentacao_basica', 'passagens', 'besteiras', 'lazer', 'hobbie', 'educacao', 'saude', 'vestuario', 'moradia', 'transporte', 'investimentos', 'outros'))
+      type!: 'academia' | 'alimentacao_basica' | 'passagens' | 'besteiras' | 'lazer' | 'hobbie' | 'educacao' | 'saude' | 'vestuario' | 'moradia' | 'transporte' | 'investimentos' | 'outros'; // Novo campo
 
-    @Column({
-        type: DataType.DATE,
-        allowNull: true,
-    })
-    deleted_at?: Date;
-}
+      @Default(false)
+      @Column(DataType.BOOLEAN)
+      is_recurring!: boolean;
+
+      @Default('BRL')
+      @Column(DataType.STRING(3))
+      currency!: string;
+
+      @CreatedAt
+      created_at!: Date;
+
+      @UpdatedAt
+      updated_at!: Date;
+
+      @DeletedAt
+      deleted_at?: Date | null;
+
+      @BelongsTo(() => User)
+      user!: User;
+  }
+
+  export type CreateExpenseInput = CreateExpenseAttributes;

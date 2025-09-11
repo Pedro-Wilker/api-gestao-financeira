@@ -8,6 +8,7 @@ const schema = Joi.object({
     amount: Joi.number().positive().required(),
     date: Joi.string().isoDate().required(),
     category: Joi.string().valid('food', 'transport', 'housing', 'entertainment', 'health', 'other').optional(),
+    type: Joi.string().valid('academia', 'alimentacao_basica', 'passagens', 'besteiras', 'lazer', 'hobbie', 'educacao', 'saude', 'vestuario', 'moradia', 'transporte', 'investimentos', 'outros').required(),
     is_recurring: Joi.boolean().optional(),
     currency: Joi.string().length(3).optional(),
 });
