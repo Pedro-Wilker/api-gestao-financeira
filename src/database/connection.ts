@@ -1,5 +1,8 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import dotenv from 'dotenv';
+import { User } from '../models/User';
+import { Expense } from '../models/Expense';
+import { Income } from '../models/Income';
 
 dotenv.config();
 
@@ -18,6 +21,8 @@ const sequelize = new Sequelize({
     database: process.env.DB_NAME,
     logging: (msg) => console.log(msg),
 });
+
+sequelize.addModels([User, Expense, Income]);
 
 sequelize.authenticate()
     .then(() => console.log('Database connection established'))
